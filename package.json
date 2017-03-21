@@ -1,0 +1,15 @@
+{
+  "name": "io",
+  "version": "1.0.0",
+  "description": "Simple chat app",
+  "main": "app",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wes",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2",
+    "socket.io": "^1.7.3"
+  }
+}
