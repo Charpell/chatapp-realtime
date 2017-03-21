@@ -2,6 +2,9 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 
+// use the root folder as a public asset directory
+app.use(express.static(__dirname));
+
 //initialize a new instance of socket.io by passing the http (the HTTP server) object.
 var io = require('socket.io')(http);
 

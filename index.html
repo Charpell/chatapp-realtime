@@ -1,44 +1,36 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>IO Chat</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
-  <script src="https://code.jquery.com/jquery-latest.min.js"</script>
-  <script src= "/socket.io/socket.io.js"></script>
-  <style>
-    body{
-      margin-top: 30px;
-    }
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
 
-    #messageArea{
-      display: none;  //hides the message from the publi  until user login
-
-    }
-  </style>
-  
 </head>
 
 
 
 <body>
-<div class="container">
+  <div class="container">
 
-    <div id='userFormArea' class ="row">
+    <div id='userFormArea' class="row">
 
       <div class="col-md-12">
-      <form id="userForm">
+        <form id="userForm">
           <div class="form-group">
             <label>Enter Username</label>
             <input class="form-control" id="username" />
-          
+
             <br />
             <input type="submit" class="btn btn-primary" value="Login">
-            
+
           </div>
-      </form>
-      
-    </div>
-      
+        </form>
+
+      </div>
+
     </div>
 
 
@@ -49,7 +41,7 @@
         <div class="well">
           <h3>Online Users</h3>
           <ul class="list-group" id="users"></ul>
-            
+
         </div>
       </div>
 
@@ -57,27 +49,27 @@
         <div class="chat" id="chat"></div>
         <form id="messageForm">
           <div class="form-group">
-          <label>Enter Message</label>
-          <textarea class="form-control" id="message">
+            <label>Enter Message</label>
+            <textarea class="form-control" id="message">
             
           </textarea>
-          <br />
-          <input type="submit" class="btn btn-primary" value="Send Message">
-            
+            <br />
+            <input type="submit" class="btn btn-primary" value="Send Message">
+
           </div>
         </form>
-        
+
       </div>
-      
+
     </div>
-    
+
   </div>
 
   <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
   <script>
-    $(function(){
+    $(function () {
       var socket = io.connect();
       var $messageForm = $('#messageForm');
       var $message = $('#message');
@@ -89,39 +81,40 @@
       var $username = $('#username');
 
       //Message Configuration
-      $messageForm.submit(function(e){
+      $messageForm.submit(function (e) {
         e.preventDefault();
         socket.emit('chat message', $message.val());
         $message.val('');
       });
-      socket.on('new message', function(data){
-        $chat.append('<div class="well"><strong>'+data.user+'</strong>: '+ data.msg+'</div>');
+      socket.on('new message', function (data) {
+        $chat.append('<div class="well"><strong>' + data.user + '</strong>: ' + data.msg + '</div>');
       });
 
-        //User Configuration
-      $userForm.submit(function(e){
+      //User Configuration
+      $userForm.submit(function (e) {
         e.preventDefault();
-        socket.emit('new user', $username.val(), function(data){
-          if (data){
+        socket.emit('new user', $username.val(), function (data) {
+          if (data) {
             $userFormArea.hide();
             $messageArea.show();
           }
         });
         $username.val('');
       });
-        socket.on('get users', function(data){
-          var html = '';
-          for (i =0; i< data.length; i++){
-            html += '<li class="list-group-item">' + data[i]+'</li>';
-          }
-          $users.html(html);
-        });
-    
+      socket.on('get users', function (data) {
+        var html = '';
+        for (i = 0; i < data.length; i++) {
+          html += '<li class="list-group-item">' + data[i] + '</li>';
+        }
+        $users.html(html);
+      });
+
 
     });
-  </script> 
+  </script>
 
 
 
 </body>
+
 </html>
